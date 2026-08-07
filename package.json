@@ -1,0 +1,8 @@
+{
+  "name": "w-profit-pot",
+  "version": "1.0.1",
+  "description": "Kick stream profit-call pot widget for kick.com/w",
+  "main": "server.js",
+  "scripts": {"start":"node server.js"},
+  "engines": {"node":">=18"}
+}

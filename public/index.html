@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>W Profit Pot Admin</title>
+<style>
+:root{--bg:#090510;--panel:#150c24;--panel2:#1d1032;--purple:#8b5cf6;--purple2:#a78bfa;--green:#53fc18;--text:#f7f4ff;--muted:#9d94ad;--danger:#ff5a7a;--border:#35204e}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 20% 0,#241041 0,transparent 34%),linear-gradient(145deg,#08040e,#100719 60%,#08040e);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;min-height:100vh}
+.wrap{width:min(1320px,94vw);margin:28px auto 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px}.brand{font-size:30px;font-weight:900;letter-spacing:-1px}.brand b{color:var(--green);text-shadow:0 0 18px #53fc1870}.sub{color:var(--muted);font-size:13px;margin-top:4px}.badge{padding:10px 14px;background:#11091d;border:1px solid var(--border);border-radius:14px;color:#cbbcff;font-weight:700;font-size:13px}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px}.card{background:linear-gradient(180deg,#190d2aee,#100919ee);border:1px solid var(--border);border-radius:22px;padding:20px;box-shadow:0 18px 50px #0005;backdrop-filter:blur(8px)}
+.potCard{padding:24px;position:relative;overflow:hidden}.potCard:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-90px;top:-120px;background:#53fc1810;box-shadow:0 0 100px #53fc1830}.label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.4px;font-weight:800}.pot{font-size:64px;font-weight:1000;letter-spacing:-3px;margin:4px 0 2px;text-shadow:0 0 30px #53fc1833}.pot span{color:var(--green)}.mini{display:flex;gap:20px;color:#c9c0d7;font-weight:700;font-size:13px}.mini strong{color:#fff}
+.form{display:grid;grid-template-columns:1fr 170px auto;gap:10px;margin-top:20px}input,button{font:inherit}input{background:#0b0612;border:1px solid #39234f;color:#fff;border-radius:14px;padding:14px 15px;outline:none}input:focus{border-color:var(--purple);box-shadow:0 0 0 3px #8b5cf620}button{border:0;border-radius:14px;padding:14px 18px;font-weight:900;cursor:pointer;transition:.15s transform,.15s opacity}.primary{background:linear-gradient(135deg,var(--green),#9dff53);color:#071000;box-shadow:0 8px 26px #53fc1825}.primary:hover{transform:translateY(-1px)}.purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);color:white}.danger{background:#2a0e18;color:#ff8ba2;border:1px solid #592033}.ghost{background:#130a20;color:#d7ccec;border:1px solid var(--border)}button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.roll{font-size:19px;padding:16px 26px;flex:1;min-width:180px}.pinWrap{display:flex;gap:8px;align-items:center;margin-top:14px}.pinWrap input{max-width:180px;padding:10px 12px}.hint{font-size:12px;color:var(--muted)}
+.sectionTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sectionTitle h2{font-size:16px;margin:0}.count{font-size:12px;color:var(--muted)}.tableWrap{max-height:460px;overflow:auto;border:1px solid #2d1a41;border-radius:15px}.row{display:grid;grid-template-columns:1fr 100px 130px 42px;gap:8px;align-items:center;padding:11px 12px;border-bottom:1px solid #2b193d;font-size:13px}.row:last-child{border:0}.row.head{position:sticky;top:0;background:#130a20;color:var(--muted);font-size:11px;text-transform:uppercase;font-weight:900;z-index:1}.name{font-weight:850}.amt{color:var(--green);font-weight:900}.time{color:var(--muted);font-size:12px}.x{width:32px;height:32px;padding:0;border-radius:10px;background:#2a0e18;color:#ff8ba2}.empty{text-align:center;color:var(--muted);padding:38px 10px;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;max-height:460px;overflow:auto}.stat{background:#10081a;border:1px solid #2f1a45;border-radius:15px;padding:14px}.statTop{display:flex;justify-content:space-between;gap:10px}.tickets{color:var(--purple2);font-weight:900}.contrib{color:var(--muted);font-size:12px;margin-top:5px}.winnerBox{margin-top:14px;border:1px solid #53fc1850;background:#0c1b0b;border-radius:16px;padding:14px;display:none}.winnerBox.show{display:block}.winnerName{font-size:23px;font-weight:1000;color:var(--green)}
+.toast{position:fixed;right:22px;bottom:22px;background:#170c25;border:1px solid #4a2c69;padding:13px 16px;border-radius:14px;box-shadow:0 14px 40px #0008;opacity:0;transform:translateY(8px);pointer-events:none;transition:.2s}.toast.show{opacity:1;transform:none}.toast.bad{border-color:#6b2437;color:#ff9bad}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}.form button{grid-column:1/-1}.pot{font-size:50px}}@media(max-width:560px){.form{grid-template-columns:1fr}.row{grid-template-columns:1fr 80px 34px}.row .time,.row.head .time{display:none}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><div class="brand"><b>W</b> PROFIT POT</div><div class="sub">kick.com/w • profitable slot calls build the giveaway pot</div></div>
+    <div class="badge">OBS: <span id="overlayUrl">/overlay</span></div>
+  </div>
+
+  <div class="grid">
+    <div>
+      <div class="card potCard">
+        <div class="label">Current Pot</div>
+        <div class="pot"><span>$</span><span id="pot">0.00</span></div>
+        <div class="mini"><div><strong id="entries">0</strong> entries</div><div><strong id="unique">0</strong> callers</div><div>Round <strong id="round">1</strong></div></div>
+
+        <div class="form">
+          <input id="name" placeholder="Viewer / caller name" autocomplete="off" />
+          <input id="amount" type="number" min="0.01" step="0.01" placeholder="Amount added ($)" />
+          <button class="primary" id="addBtn">+ PROFIT CALL</button>
+        </div>
+        <div class="hint" style="margin-top:9px">Every profitable call = 1 entry. If the same viewer calls multiple profitable bonuses, they get multiple entries.</div>
+
+        <div class="actions">
+          <button class="purple roll" id="rollBtn">🎰 ROLL WINNER</button>
+          <button class="ghost" id="adjustBtn">Adjust Pot</button>
+          <button class="ghost" id="clearWinnerBtn">Hide Winner</button>
+          <button class="danger" id="newRoundBtn">New Round</button>
+        </div>
+
+        <div class="winnerBox" id="winnerBox"><div class="label">Last Winner</div><div class="winnerName" id="winnerName">—</div><div class="hint" id="winnerPrize"></div></div>
+
+        <div class="pinWrap"><input id="pin" type="password" placeholder="Admin PIN (if set)" /><span class="hint" id="pinStatus">PIN protection status loading…</span></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <div class="sectionTitle"><h2>Profit Call History</h2><div class="count" id="historyCount">0 calls</div></div>
+        <div class="tableWrap" id="history"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="sectionTitle"><h2>Caller Leaderboard</h2><div class="count">tickets = profitable calls</div></div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+let S = null;
+const $ = s => document.querySelector(s);
+const money = n => Number(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const pin = () => $('#pin').value.trim();
+const headers = () => ({'Content-Type':'application/json','x-admin-pin':pin()});
+
+function toast(msg,bad=false){const t=$('#toast');t.textContent=msg;t.className='toast show'+(bad?' bad':'');clearTimeout(t._to);t._to=setTimeout(()=>t.className='toast',2500)}
+async function api(url, opts={}){opts.headers={...headers(),...(opts.headers||{})}; const r=await fetch(url,opts); const j=await r.json().catch(()=>({})); if(!r.ok) throw new Error(j.error||'Request failed'); return j}
+
+function render(s){S=s;$('#pot').textContent=money(s.pot);$('#entries').textContent=s.entryCount;$('#unique').textContent=s.uniqueCallers;$('#round').textContent=s.round;$('#historyCount').textContent=`${s.calls.length} call${s.calls.length===1?'':'s'}`;$('#rollBtn').disabled=s.rolling||!s.calls.length||s.pot<=0;$('#rollBtn').textContent=s.rolling?'🎰 ROLLING…':'🎰 ROLL WINNER';$('#pinStatus').textContent=s.adminProtected?'PIN protection is ON':'PIN protection is OFF';
+  if(s.winner){$('#winnerBox').classList.add('show');$('#winnerName').textContent=s.winner.name;$('#winnerPrize').textContent=`Won the $${money(s.winner.prize)} pot`;}else{$('#winnerBox').classList.remove('show')}
+  $('#history').innerHTML = s.calls.length ? `<div class="row head"><div>Caller</div><div>Added</div><div class="time">Time</div><div></div></div>` + [...s.calls].reverse().map(c=>`<div class="row"><div class="name">${esc(c.name)}</div><div class="amt">+$${money(c.amount)}</div><div class="time">${new Date(c.createdAt).toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}</div><button class="x" onclick="removeCall('${c.id}')">×</button></div>`).join('') : `<div class="empty">No profitable calls yet.</div>`;
+  $('#stats').innerHTML = s.stats.length ? s.stats.map((x,i)=>`<div class="stat"><div class="statTop"><div class="name">#${i+1} ${esc(x.name)}</div><div class="tickets">${x.calls} 🎟️</div></div><div class="contrib">$${money(x.contributed)} added to pot</div></div>`).join('') : `<div class="empty">Caller stats will appear here.</div>`;
+}
+function esc(v){return String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+async function refresh(){try{render(await api('/api/state'))}catch(e){}}
+
+$('#addBtn').onclick=async()=>{try{const name=$('#name').value.trim();const amount=Number($('#amount').value);const s=await api('/api/call',{method:'POST',body:JSON.stringify({name,amount})});render(s);$('#amount').value='';$('#name').focus();toast(`Added ${name}: +$${money(amount)}`)}catch(e){toast(e.message,true)}};
+$('#amount').addEventListener('keydown',e=>{if(e.key==='Enter')$('#addBtn').click()});
+$('#name').addEventListener('keydown',e=>{if(e.key==='Enter')$('#amount').focus()});
+window.removeCall=async(id)=>{if(!confirm('Remove this profit call and subtract its amount from the pot?'))return;try{render(await api('/api/call/'+id,{method:'DELETE'}));toast('Profit call removed')}catch(e){toast(e.message,true)}};
+$('#adjustBtn').onclick=async()=>{const raw=prompt('Pot adjustment. Use a positive number to add, or negative to subtract:');if(raw===null)return;try{render(await api('/api/adjust-pot',{method:'POST',body:JSON.stringify({amount:Number(raw)})}));toast('Pot adjusted')}catch(e){toast(e.message,true)}};
+$('#rollBtn').onclick=async()=>{if(!confirm(`Roll one of ${S?.entryCount||0} entries for the entire $${money(S?.pot)} pot?`))return;try{await api('/api/roll',{method:'POST',body:'{}'});toast('Rolling winner…');refresh()}catch(e){toast(e.message,true)}};
+$('#clearWinnerBtn').onclick=async()=>{try{render(await api('/api/clear-winner',{method:'POST',body:'{}'}))}catch(e){toast(e.message,true)}};
+$('#newRoundBtn').onclick=async()=>{if(!confirm('Start a new round? This clears the pot, all entries, history, and winner.'))return;try{render(await api('/api/new-round',{method:'POST',body:'{}'}));toast('New round started')}catch(e){toast(e.message,true)}};
+$('#overlayUrl').textContent=location.origin+'/overlay';
+setInterval(refresh,900);refresh();
+</script>
+</body>
+</html>
